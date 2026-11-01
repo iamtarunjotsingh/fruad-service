@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: fraud-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: FRAUD_ENV
+        value: production
+      - key: FRAUD_API_KEY
+        sync: false
+      - key: MODEL_SHA256
+        sync: false

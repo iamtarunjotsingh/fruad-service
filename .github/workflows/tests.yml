@@ -1,0 +1,52 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: pip install -r requirements.txt
+      - run: pip install -e .
+      - run: pytest -q tests
+
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build serving image
+        run: docker build -t fraud-service:ci .
+      - name: Verify API and dashboard
+        shell: bash
+        run: |
+          set -euo pipefail
+          cleanup() { docker logs fraud-api || true; docker logs fraud-dashboard || true; docker rm -f fraud-api fraud-dashboard || true; }
+          trap cleanup EXIT
+          docker run -d --name fraud-api -e PORT=8081 -p 127.0.0.1:8081:8081 fraud-service:ci
+          for i in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:8081/health | grep -q '"model_loaded":true'; then break; fi
+            if [ "$i" -eq 60 ]; then exit 1; fi
+            sleep 2
+          done
+          payload=$(printf '{"Time":0,"Amount":1'; for i in {1..28}; do printf ',"V%s":0' "$i"; done; printf '}')
+          for endpoint in predict explain; do
+            curl --fail --silent --show-error -H 'Content-Type: application/json' -d "$payload" "http://127.0.0.1:8081/$endpoint" | python -c 'import json,sys; assert json.load(sys.stdin)'
+          done
+          docker run -d --name fraud-dashboard -e PORT=8082 -p 127.0.0.1:8082:8082 fraud-service:ci python start_dashboard.py
+          for i in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:8082/_stcore/health | grep -q 'ok'; then exit 0; fi
+            if [ "$i" -eq 60 ]; then exit 1; fi
+            sleep 2
+          done

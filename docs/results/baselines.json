@@ -1,0 +1,58 @@
+{
+  "Majority class": {
+    "threshold_0.5": {
+      "pr_auc": 0.0012171714807359207,
+      "roc_auc": 0.5,
+      "recall_at_90_precision": 0.0,
+      "threshold": 0.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 52,
+      "tn": 42670
+    },
+    "threshold_tuned_on_val": {
+      "pr_auc": 0.0012171714807359207,
+      "roc_auc": 0.5,
+      "recall_at_90_precision": 0.0,
+      "threshold": 0.5,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "fp": 0,
+      "fn": 52,
+      "tn": 42670
+    }
+  },
+  "Logistic regression (unweighted)": {
+    "threshold_0.5": {
+      "pr_auc": 0.6442420165655524,
+      "roc_auc": 0.963827044762128,
+      "recall_at_90_precision": 0.4230769230769231,
+      "threshold": 0.5,
+      "precision": 0.7142857142857143,
+      "recall": 0.5769230769230769,
+      "f1": 0.6382978723404256,
+      "tp": 30,
+      "fp": 12,
+      "fn": 22,
+      "tn": 42658
+    },
+    "threshold_tuned_on_val": {
+      "pr_auc": 0.6442420165655524,
+      "roc_auc": 0.963827044762128,
+      "recall_at_90_precision": 0.4230769230769231,
+      "threshold": 0.2023534286372047,
+      "precision": 0.6111111111111112,
+      "recall": 0.6346153846153846,
+      "f1": 0.6226415094339622,
+      "tp": 33,
+      "fp": 21,
+      "fn": 19,
+      "tn": 42649
+    }
+  }
+}

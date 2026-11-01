@@ -1,0 +1,13 @@
+.git
+.venv
+__pycache__
+.pytest_cache
+data
+mlartifacts
+mlflow.db
+notebooks
+tests
+docs
+scripts
+models/*
+!models/bundle.joblib

@@ -1,0 +1,13 @@
+data/*.csv
+__pycache__/
+.pytest_cache/
+mlruns/
+models/
+!models/
+models/*
+!models/bundle.joblib
+mlflow.db
+mlflow_synthetic.db
+mlartifacts/
+mlartifacts_synthetic/
+mlruns/

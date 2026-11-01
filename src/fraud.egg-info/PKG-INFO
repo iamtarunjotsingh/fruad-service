@@ -1,0 +1,5 @@
+Metadata-Version: 2.4
+Name: fraud
+Version: 0.1.0
+Summary: Credit card fraud detection: training, evaluation, tracking, serving
+Requires-Python: >=3.10
